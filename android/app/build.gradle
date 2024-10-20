@@ -101,7 +101,9 @@ android {
         versionCode 1
         versionName "1.0"
     }
-
+project.ext.react = [
+    enableHermes: true,  // <-- Enable Hermes
+]
     splits {
         abi {
             reset()
@@ -168,3 +170,4 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply plugin: 'com.google.gms.google-services'

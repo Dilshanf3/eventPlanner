@@ -1,0 +1,151 @@
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  Dimensions,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
+
+import {
+  fetchOrganizers,
+  fetchImages,
+  fetchPosts,
+} from '../../services/apiActions'; // Import fetchPosts
+
+import {useNavigation} from '@react-navigation/native';
+import styles from '../../styles/eventStyles';
+import {Strings} from '../../constants/strings';
+Dimensions.get('window');
+
+const EventScreen = () => {
+  const [organizers, setOrganizers] = useState([]);
+  const [images, setImages] = useState([]);
+  const [posts, setPosts] = useState([]); // State for posts
+  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation(); // Get navigation
+
+  // Fetch the organizers, images, and posts from the  APIs
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const organizersData = await fetchOrganizers();
+        const imagesData = await fetchImages(10);
+        const postsData = await fetchPosts(); // Fetch posts
+        setOrganizers(organizersData);
+        setImages(imagesData);
+        setPosts(postsData); // Update posts state
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Render a single organizer
+  const renderOrganizer = ({item}) => (
+    <View style={styles.organizerContainer}>
+      <Image
+        source={{uri: 'https://via.placeholder.com/40'}}
+        style={styles.organizerImage}
+      />
+      <View style={styles.organizerTextContainer}>
+        <Text style={styles.organizerName}>{item.name}</Text>
+        <Text style={styles.organizerEmail}>{item.email}</Text>
+      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('PostsAndComments')}>
+        <Image
+          source={require('../../assets/images/chat.png')}
+          style={styles.chatIcon}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+
+  // Render a single image in the horizontal list
+  const renderImage = ({item}) => (
+    <View style={styles.imageCard}>
+      <Image source={{uri: item.url}} style={styles.photo} />
+      <Text style={styles.imageTitle}>{item.title}</Text>
+    </View>
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#D36F56" />
+      </View>
+    );
+  }
+
+  return (
+    <ScrollView style={styles.container}>
+      {/* Top Image Slider */}
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}>
+        {images.map((image, index) => (
+          <View key={index} style={styles.sliderContainer}>
+            <Image source={{uri: image.url}} style={styles.sliderImage} />
+            <View style={styles.imageCount}>
+              <Text style={styles.imageCountText}>
+                {index + 1} / {images.length}
+              </Text>
+            </View>
+          </View>
+        ))}
+      </ScrollView>
+
+      {/* Event Name */}
+      <View style={styles.detailsContainer}>
+        <Text style={styles.eventName}>{Strings.event_Name}</Text>
+        <Text style={styles.eventLocation}>{Strings.event_location}</Text>
+      </View>
+
+      {/* Organizers Section */}
+      <View style={styles.organizersContainer}>
+        <Text style={styles.sectionTitle}>{Strings.organizers}</Text>
+        <FlatList
+          data={organizers}
+          renderItem={renderOrganizer}
+          keyExtractor={item => item.id.toString()}
+        />
+      </View>
+
+      {/* Photos Section */}
+      <View style={styles.photosContainer}>
+        <View style={styles.photosHeader}>
+          <Text style={styles.sectionTitle}>{Strings.photoes}</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('PhotosScreen')}>
+            <Text style={styles.allPhotosLink}>{Strings.all_Photos}</Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          data={images}
+          renderItem={renderImage}
+          horizontal
+          keyExtractor={item => item.id.toString()}
+        />
+      </View>
+
+      {/* Post Count Section at the Bottom */}
+      <View style={styles.postCountContainer}>
+        <TouchableOpacity
+          style={styles.postCountContainer}
+          onPress={() => navigation.navigate('PostsAndComments')} // Navigate to PostsAndComments
+        >
+          <Text style={styles.postCountNumber}>{posts.length}</Text>
+          <Text style={styles.postCountLabel}>{Strings.posts}</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
+
+export default EventScreen;

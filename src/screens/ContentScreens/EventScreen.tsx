@@ -31,10 +31,8 @@ const EventScreen = () => {
   // Fetch the organizers, images, and posts from the  APIs
   useEffect(() => {
     const fetchData = async () => {
-      
       try {
         const organizersData = await fetchOrganizers();
-        console.log('organizersDataorganizersDataorganizersDataorganizersData')
         const imagesData = await fetchImages(10);
         const postsData = await fetchPosts(); // Fetch posts
         setOrganizers(organizersData);

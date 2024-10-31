@@ -21,7 +21,7 @@ export const fetchComments = async (): Promise<Comment[]> => {
     return response.data; // Return all comments
   } catch (error) {
     console.error('Error fetching comments:', error);
-    throw error;
+    throw error; 
   }
 };
 
@@ -29,6 +29,7 @@ export const fetchComments = async (): Promise<Comment[]> => {
 export const fetchOrganizers = async () => {
   try {
     const response = await axiosInstance.get('/users');
+   
     return response.data.slice(0, 5); // Return the first 5 organizers
   } catch (error) {
     console.error('Error fetching organizers:', error);
@@ -37,7 +38,7 @@ export const fetchOrganizers = async () => {
 };
 
 // Function to fetch images
-export const fetchImages = async itemCount => {
+export const fetchImages = async (itemCount) => {
   try {
     const response = await axiosInstance.get('/photos');
     return response.data.slice(0, itemCount); // Return the first 10 images

@@ -6,6 +6,8 @@ import useLoginScreen from './useLoginScreen';
 import Spinner from 'react-native-loading-spinner-overlay';
 import styles from '../../styles/loginStyles';
 import {Strings} from '../../constants/strings';
+import ButtonComponent from '../../component/Button/ButtonComponent';
+import TextInputFieldComponent from '../../component/Input/TextInputField';
 const LoginScreen = () => {
   const {
     email,
@@ -40,17 +42,18 @@ const LoginScreen = () => {
       </Text>
 
       {/* Email Input */}
-      <InputField
-        placeholder="your.email@gmail.com"
+
+      <TextInputFieldComponent
+        label="Email"
         value={email}
         onChangeText={setEmail}
         icon={require('../../assets/images/mail.png')}
-        label="Email"
+        placeholder="your.email@gmail.com"
+        enableUnderLine={false}
       />
-
       {/* Password Input */}
-      <InputField
-        placeholder="Password"
+      <TextInputFieldComponent
+        label="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry={!showPassword}
@@ -59,13 +62,13 @@ const LoginScreen = () => {
         icon={require('../../assets/images/lock.png')}
         showPasswordIcon={require('../../assets/images/eye.png')}
         hidePasswordIcon={require('../../assets/images/eye.png')}
-        label="Password"
+        placeholder="Password"
+        enableUnderLine={false}
       />
-
       {/* Confirm Password Input - Only during Sign Up */}
       {isSignUp && (
-        <InputField
-          placeholder="Confirm Password"
+        <TextInputFieldComponent
+          label="Confirm Password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry={!showConfirmPassword}
@@ -74,33 +77,26 @@ const LoginScreen = () => {
           icon={require('../../assets/images/lock.png')}
           showPasswordIcon={require('../../assets/images/eye.png')}
           hidePasswordIcon={require('../../assets/images/eye.png')}
-          label='Confirm Password'
+          placeholder="Confirm Password"
+          enableUnderLine={false}
         />
       )}
 
       {/* Login/Sign Up Button */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={isSignUp ? handleSignUp : handleLogin}>
-        <Text style={styles.buttonText}>{isSignUp ? 'Sign Up' : 'Login'}</Text>
-        <Image
-          source={require('../../assets/images/arrow.png')}
-          style={styles.icon}
-        />
-      </TouchableOpacity>
+      <ButtonComponent
+        title="Login"
+        onPress={isSignUp ? handleSignUp : handleLogin}
+        icon={require('../../assets/images/arrow.png')}
+        enabled={true}
+      />
 
       {/* Switch between Sign Up and Login */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={isSignUp ? handleLoginToggle : handleSignUpToggle}>
-        <Text style={styles.buttonText}>
-          {isSignUp ? 'Back to Login' : 'Sign Up'}
-        </Text>
-        <Image
-          source={require('../../assets/images/arrow.png')}
-          style={styles.icon}
-        />
-      </TouchableOpacity>
+      <ButtonComponent
+        title={isSignUp ? 'Back to Login' : 'Sign Up'}
+        onPress={isSignUp ? handleLoginToggle : handleSignUpToggle}
+        icon={require('../../assets/images/arrow.png')}
+        enabled={true}
+      />
     </SafeAreaView>
   );
 };

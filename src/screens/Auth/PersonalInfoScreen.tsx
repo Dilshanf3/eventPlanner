@@ -8,6 +8,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import ProfileInput from '../../component/updateProfile/ProfileInput';
 import styles from '../../styles/personalInfoStyles';
 import {Strings} from '../../constants/strings';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ButtonComponent from '../../component/Button/ButtonComponent';
 type RootStackParamList = {
   PersonalInfo: {
     profileImage: string;
@@ -29,7 +31,8 @@ const PersonalInfoScreen: React.FC = () => {
 
   const savePersonalInfo = async () => {
     try {
-      await firestore().collection('users').doc(email).set({
+      const storedUserId = await AsyncStorage.getItem('userId');
+      const data = await firestore().collection('users').doc(storedUserId).set({
         firstName,
         lastName,
         email,
@@ -38,7 +41,6 @@ const PersonalInfoScreen: React.FC = () => {
         profileImage,
         createdAt: firestore.FieldValue.serverTimestamp(),
       });
-
       Alert.alert('Info Saved', 'Your personal information has been saved.');
       navigation.navigate('Dashboard');
     } catch (error) {
@@ -90,25 +92,22 @@ const PersonalInfoScreen: React.FC = () => {
         />
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}>
-            <Image
-              source={require('../../assets/images/back_arrow.png')}
-              style={styles.icon}
-            />
-            <Text style={styles.backButtonText}>{Strings.back}</Text>
-          </TouchableOpacity>
+          <ButtonComponent
+            title={Strings.back}
+            onPress={() => navigation.goBack()}
+            buttonStyle={styles.backButton}
+            textStyle={styles.backButtonText}
+            isBackButton={true}
+            icon={require('../../assets/images/back_arrow.png')}
+          />
 
-          <TouchableOpacity
-            style={styles.nextButton}
-            onPress={savePersonalInfo}>
-            <Text style={styles.nextButtonText}>{Strings.next}</Text>
-            <Image
-              source={require('../../assets/images/arrow.png')}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
+          <ButtonComponent
+            title={Strings.next}
+            onPress={savePersonalInfo}
+            buttonStyle={styles.nextButton}
+            textStyle={styles.nextButtonText}
+            icon={require('../../assets/images/arrow.png')}
+          />
         </View>
       </ScrollView>
     </View>

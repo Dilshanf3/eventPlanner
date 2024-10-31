@@ -29,7 +29,6 @@ const DrawerNavigator = () => {
         options={{
           drawerItemStyle: {display: 'none'},
           headerShown: false,
-          headerLeft: () => <Button onPress={() => navigation.openDrawer()} />,
         }}
       />
     </Drawer.Navigator>

@@ -7,9 +7,8 @@ import {
 } from 'react-native-image-picker';
 import UploadButton from '../../component/UploadButton';
 import WelcomeText from '../../component/WelcomeText';
-import NextButton from '../../component/NextButton';
 import styles from '../../styles/profileImageStyles';
-
+import ButtonComponent from '../../component/Button/ButtonComponent';
 const ProfileImageScreen: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [welcomeMessage] = useState<string>(
@@ -46,7 +45,14 @@ const ProfileImageScreen: React.FC = () => {
         profileImage={profileImage}
         onUpload={handleProfilePhotoUpload}
       />
-      <NextButton onPress={handleNext} buttonText="Continue" />
+      <View style={styles.nextButton}>
+        <ButtonComponent
+          title={'Continue'}
+          onPress={handleNext}
+          icon={require('../../assets/images/arrow.png')}
+          enabled={true}
+        />
+      </View>
     </View>
   );
 };

@@ -14,7 +14,7 @@ import {
   fetchOrganizers,
   fetchImages,
   fetchPosts,
-} from '../../services/apiActions'; // Import fetchPosts
+} from '../../services/apiActions';
 
 import {useNavigation} from '@react-navigation/native';
 import styles from '../../styles/eventStyles';
@@ -24,15 +24,17 @@ Dimensions.get('window');
 const EventScreen = () => {
   const [organizers, setOrganizers] = useState([]);
   const [images, setImages] = useState([]);
-  const [posts, setPosts] = useState([]); // State for posts
+  const [posts, setPosts] = useState([]); 
   const [loading, setLoading] = useState(true);
-  const navigation = useNavigation(); // Get navigation
-
+  const navigation = useNavigation();
+  
   // Fetch the organizers, images, and posts from the  APIs
   useEffect(() => {
     const fetchData = async () => {
+      
       try {
         const organizersData = await fetchOrganizers();
+        console.log('organizersDataorganizersDataorganizersDataorganizersData')
         const imagesData = await fetchImages(10);
         const postsData = await fetchPosts(); // Fetch posts
         setOrganizers(organizersData);

@@ -1,28 +1,48 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 15,
+  },
   label: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#444749',
     marginBottom: 5,
-    marginTop: 10,
-    fontFamily:'Noto Sans',
-    marginLeft:10,
+  },
+  innerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#DA5E4214',
+    borderRadius: 5,
+    paddingHorizontal: 5,
+    textAlign: 'left',
+  },
+  iconLeft: {
+    paddingLeft: 10,
+  },
+  iconRight: {
+    paddingRight: 10,
+  },
+  icon: {
+    marginHorizontal: 5,
   },
   input: {
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
+    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 2,
     fontSize: 16,
-    marginBottom: 10,
+    color: '#444749',
+   
   },
-  inputDisabled: {
-    backgroundColor: '#DA5E4214',
-    borderColor: '#D3D3D3',
+  bottomLine: {
+    height: 1,
+    backgroundColor: '#444749',
+    marginTop: -5,
   },
-  inputEnabled: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#D36F56',
+  toggleIcon: {
+    position: 'absolute',
+    right: 10,
+    padding: 5,
   },
 });
 

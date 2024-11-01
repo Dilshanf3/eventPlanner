@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     position: 'absolute',
-    left: 10,
+    left: 15,
   },
   title: {
     fontSize: 24,

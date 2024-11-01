@@ -43,6 +43,7 @@ const ProfileScreen: React.FC = () => {
       const userDoc = await firestore().collection('users').doc(userId).get();
       if (userDoc.exists) {
         const userData = userDoc.data();
+        console.log('userDatauserDatauserData', userData);
         dispatch(setProfile(userData));
         setLocalProfile(userData); // Set local profile for form
         setProfileImage(userData.profilePic || null);
@@ -75,6 +76,7 @@ const ProfileScreen: React.FC = () => {
   };
 
   const handleProfilePhotoUpload = () => {
+    console.log('ggggggg');
     launchImageLibrary(
       {
         mediaType: 'photo',
@@ -149,20 +151,24 @@ const ProfileScreen: React.FC = () => {
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}>
-      <ProfileHeader profilePic={profileImage || profile.profilePic} />
-      <ProfilePicture
-        profilePic={profileImage || profile.profilePic}
-        onPress={isEditable ? handleProfilePhotoUpload : undefined}
-      />
-      <ProfileForm fields={fields} />
-      <ButtonComponent
-        title={isEditable ? 'Save' : 'Edit'}
-        onPress={isEditable ? handleSave : handleEdit}
-      />
-    </ScrollView>
+    <View style={{backgroundColor: 'white'}}>
+      <View style={{marginTop: 6}}>
+        <ProfileHeader profilePic={profileImage || profile.profilePic} />
+        <ScrollView
+          contentContainerStyle={styles.container}
+          showsVerticalScrollIndicator={false}>
+          <ProfilePicture
+            profilePic={profileImage || profile.profilePic}
+            onPress={isEditable ? handleProfilePhotoUpload : undefined}
+          />
+          <ProfileForm fields={fields} />
+          <ButtonComponent
+            title={isEditable ? 'Save' : 'Edit'}
+            onPress={isEditable ? handleSave : handleEdit}
+          />
+        </ScrollView>
+      </View>
+    </View>
   );
 };
 

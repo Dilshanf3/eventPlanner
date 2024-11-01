@@ -14,3 +14,10 @@ export interface Comment {
   email: string;
   body: string;
 }
+
+export type RootStackParamList = {
+  EventScreen: undefined;
+  PostsAndComments: undefined;
+  PhotosScreen: undefined;
+  // Add other screens as needed
+};

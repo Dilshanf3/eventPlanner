@@ -5,30 +5,48 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  Dimensions,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-
+import {useNavigation} from '@react-navigation/native';
+import styles from '../../styles/eventStyles';
+import {Strings} from '../../constants/strings';
 import {
   fetchOrganizers,
   fetchImages,
   fetchPosts,
 } from '../../services/apiActions';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../../types';
+// Define types for the data structures
+interface Organizer {
+  id: string;
+  name: string;
+  email: string;
+}
 
-import {useNavigation} from '@react-navigation/native';
-import styles from '../../styles/eventStyles';
-import {Strings} from '../../constants/strings';
-Dimensions.get('window');
+interface ImageItem {
+  id: string;
+  url: string;
+  title: string;
+}
 
-const EventScreen = () => {
-  const [organizers, setOrganizers] = useState([]);
-  const [images, setImages] = useState([]);
-  const [posts, setPosts] = useState([]); 
+interface Post {
+  id: string;
+}
+type EventScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'EventScreen'
+>;
+
+const EventScreen: React.FC = () => {
+  const navigation = useNavigation<EventScreenNavigationProp>();
+  const [organizers, setOrganizers] = useState<Organizer[]>([]);
+  const [images, setImages] = useState<ImageItem[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]); // Ensure Post interface aligns with incoming data
   const [loading, setLoading] = useState(true);
-  const navigation = useNavigation();
-  
-  // Fetch the organizers, images, and posts from the  APIs
+
+  // Fetch the organizers, images, and posts from the APIs
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,7 +66,7 @@ const EventScreen = () => {
   }, []);
 
   // Render a single organizer
-  const renderOrganizer = ({item}) => (
+  const renderOrganizer = ({item}: {item: Organizer}) => (
     <View style={styles.organizerContainer}>
       <Image
         source={{uri: 'https://via.placeholder.com/40'}}
@@ -68,7 +86,7 @@ const EventScreen = () => {
   );
 
   // Render a single image in the horizontal list
-  const renderImage = ({item}) => (
+  const renderImage = ({item}: {item: ImageItem}) => (
     <View style={styles.imageCard}>
       <Image source={{uri: item.url}} style={styles.photo} />
       <Text style={styles.imageTitle}>{item.title}</Text>
@@ -114,7 +132,7 @@ const EventScreen = () => {
         <FlatList
           data={organizers}
           renderItem={renderOrganizer}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item.id}
         />
       </View>
 
@@ -130,7 +148,7 @@ const EventScreen = () => {
           data={images}
           renderItem={renderImage}
           horizontal
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item.id}
         />
       </View>
 

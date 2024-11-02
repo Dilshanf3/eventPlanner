@@ -7,6 +7,8 @@ import styles from './Styles/LoginScreenStyles';
 import {Strings} from '../../../constants/strings';
 import ButtonComponent from '../../../component/Button/ButtonComponent';
 import TextInputFieldComponent from '../../../component/Input/TextInputField';
+import LoadingSpinner from '../../../component/Spinner/LoadingSpinner';
+
 const LoginScreen = () => {
   const {
     email,
@@ -16,6 +18,7 @@ const LoginScreen = () => {
     showConfirmPassword,
     isSignUp,
     loading,
+    errorMessage, // Get error message
     setEmail,
     setPassword,
     setConfirmPassword,
@@ -26,22 +29,17 @@ const LoginScreen = () => {
     handleSignUp,
     handleLogin,
   } = useLoginScreen();
-
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner
-        visible={loading}
-        textContent={'Loading...'}
-        textStyle={styles.spinnerTextStyle}
-      />
-
       <Text style={styles.welcomeTitle}>{Strings.welcome}</Text>
       <Text style={styles.welcomeSubtitle}>
         {isSignUp ? 'Create your account' : 'Welcome to your Portal'}
       </Text>
 
       {/* Email Input */}
-
       <TextInputFieldComponent
         label="Email"
         value={email}
@@ -80,10 +78,14 @@ const LoginScreen = () => {
           enableUnderLine={false}
         />
       )}
+      {/* Display error message if it exists */}
+      {errorMessage !== '' && (
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      )}
 
       {/* Login/Sign Up Button */}
       <ButtonComponent
-        title="Login"
+        title={isSignUp ? 'Sign Up' : 'Login'}
         onPress={isSignUp ? handleSignUp : handleLogin}
         icon={require('../../../assets/images/arrow.png')}
         enabled={true}

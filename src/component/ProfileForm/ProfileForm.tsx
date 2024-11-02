@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import TextInputFieldComponent from '../Input/TextInputField';
 
 interface Field {
@@ -8,6 +8,7 @@ interface Field {
   onChangeText: (text: string) => void;
   editable?: boolean;
   placeholder?: string;
+  error?: string;
 }
 
 interface DynamicReusableFormProps {
@@ -27,6 +28,10 @@ const ProfileForm: React.FC<DynamicReusableFormProps> = ({fields}) => {
             label={field.label}
             enableUnderLine={false}
           />
+          {/* Render error message below the input */}
+          {field.error ? (
+            <Text style={styles.errorText}>{field.error}</Text>
+          ) : null}
         </View>
       ))}
     </View>
@@ -36,6 +41,11 @@ const ProfileForm: React.FC<DynamicReusableFormProps> = ({fields}) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12, 
+    marginTop: 4, 
   },
 });
 

@@ -1,10 +1,9 @@
 import React, {useState, useMemo, useEffect} from 'react';
-import {View, Text, Alert, ActivityIndicator} from 'react-native';
+import {View, Text, Alert, ScrollView} from 'react-native';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ScrollView} from 'react-native-gesture-handler';
 import ProfileForm from '../../../component/ProfileForm/ProfileForm';
 import ButtonComponent from '../../../component/Button/ButtonComponent';
 import {
@@ -13,37 +12,55 @@ import {
 } from '../../../redux/actions/profileActions';
 import styles from './Styles/EditProfileStyles';
 import {Strings} from '../../../constants/strings';
+import {isValidEmail, isValidPhoneNumber} from '../../Utils/validationUtils';
+import LoadingSpinner from '../../../component/Spinner/LoadingSpinner';
 
+// types for the stack param list
 type RootStackParamList = {
   PersonalInfo: {
-    profileImage: string;
+    profileImage?: string; 
   };
   Dashboard: undefined;
 };
 
+//route prop type for the PersonalInfo screen
 type PersonalInfoRouteProp = RouteProp<RootStackParamList, 'PersonalInfo'>;
+
+// state shape for the profile in Redux
+interface ProfileState {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+}
 
 const PersonalInfoScreen: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute<PersonalInfoRouteProp>();
   const dispatch = useDispatch();
 
-  const profile = useSelector((state: any) => state.profile);
-  const [localProfile, setLocalProfile] = useState(profile);
-  const [isEditable, setIsEditable] = useState(true);
-  const [loading, setLoading] = useState(false); // Loading state for save button
+  // Used a typed selector for the profile state
+  const profile = useSelector(
+    (state: {profile: ProfileState}) => state.profile,
+  );
+  const [localProfile, setLocalProfile] = useState<ProfileState>(profile);
+  const [isEditable, setIsEditable] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>('');
+  const [phoneError, setPhoneError] = useState<string>('');
 
   useEffect(() => {
     dispatch(fetchProfile());
   }, [dispatch]);
 
-  const fields = useMemo(
-    () => [
+  const fields = useMemo(() => {
+    return [
       {
         label: 'First Name',
         value: localProfile.firstName,
         onChangeText: (text: string) =>
-          setLocalProfile({...localProfile, firstName: text}),
+          setLocalProfile(prev => ({...prev, firstName: text})),
         editable: isEditable,
         placeholder: 'First Name',
       },
@@ -51,7 +68,7 @@ const PersonalInfoScreen: React.FC = () => {
         label: 'Last Name',
         value: localProfile.lastName,
         onChangeText: (text: string) =>
-          setLocalProfile({...localProfile, lastName: text}),
+          setLocalProfile(prev => ({...prev, lastName: text})),
         editable: isEditable,
         placeholder: 'Last Name',
       },
@@ -59,53 +76,78 @@ const PersonalInfoScreen: React.FC = () => {
         label: 'Email',
         value: localProfile.email,
         onChangeText: (text: string) =>
-          setLocalProfile({...localProfile, email: text}),
+          setLocalProfile(prev => ({...prev, email: text})),
         editable: isEditable,
         placeholder: 'Email',
+        error: emailError,
       },
       {
         label: 'Phone Number',
         value: localProfile.phoneNumber,
         onChangeText: (text: string) =>
-          setLocalProfile({...localProfile, phoneNumber: text}),
+          setLocalProfile(prev => ({...prev, phoneNumber: text})),
         editable: isEditable,
         placeholder: 'Phone Number',
+        error: phoneError,
       },
       {
         label: 'Mailing Address',
         value: localProfile.address,
         onChangeText: (text: string) =>
-          setLocalProfile({...localProfile, address: text}),
+          setLocalProfile(prev => ({...prev, address: text})),
         editable: isEditable,
         placeholder: 'Mailing Address',
       },
-    ],
-    [localProfile, isEditable],
-  );
+    ];
+  }, [localProfile, isEditable, emailError, phoneError]);
 
   const savePersonalInfo = async () => {
-    setLoading(true); // Show loading indicator
+    setLoading(true); 
+    setEmailError(''); 
+    setPhoneError('');
+
+    // Validate email if it's not empty
+    if (localProfile.email && !isValidEmail(localProfile.email)) {
+      setEmailError('Please enter a valid email address.');
+      setLoading(false);
+      return; // Exit the function if validation fails
+    }
+
+    // Validate phone number if it's not empty
+    if (
+      localProfile.phoneNumber &&
+      !isValidPhoneNumber(localProfile.phoneNumber)
+    ) {
+      setPhoneError('Please enter a valid 10-digit phone number.');
+      setLoading(false);
+      return; // Exit the function if validation fails
+    }
+
     try {
       const storedUserId = await AsyncStorage.getItem('userId');
-      await firestore()
-        .collection('users')
-        .doc(storedUserId)
-        .set({
-          ...localProfile,
-          profileImage: route.params?.profileImage,
-          createdAt: firestore.FieldValue.serverTimestamp(),
-        });
-      dispatch(updateProfile(localProfile)); // Save to Redux and AsyncStorage
-      Alert.alert('Info Saved', 'Your personal information has been saved.');
-      navigation.navigate('Dashboard');
+      if (storedUserId) {
+        await firestore()
+          .collection('users')
+          .doc(storedUserId)
+          .set({
+            ...localProfile,
+            profileImage: route.params?.profileImage || '', 
+            createdAt: firestore.FieldValue.serverTimestamp(),
+          });
+        dispatch(updateProfile(localProfile)); // Save to Redux
+        navigation.navigate('Dashboard'); // Navigate to Dashboard
+      } else {
+        Alert.alert('Error', 'User ID not found.');
+      }
     } catch (error) {
       Alert.alert('Error', 'Failed to save personal information.');
-      console.error('Error saving user info: ', error.message);
     } finally {
       setLoading(false); // Hide loading indicator
     }
   };
-
+  if (loading) {
+    return <LoadingSpinner />; //  LoadingSpinner component
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.headerTitle}>{Strings.personalInfo}</Text>
@@ -133,13 +175,6 @@ const PersonalInfoScreen: React.FC = () => {
             enabled={true}
           />
         </View>
-
-        {/* Loading Spinner */}
-        {loading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-        )}
       </ScrollView>
     </View>
   );

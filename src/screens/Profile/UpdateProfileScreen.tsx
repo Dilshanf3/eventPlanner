@@ -1,15 +1,9 @@
 import React, {useEffect, useState, useMemo} from 'react';
-import {
-  View,
-  ScrollView,
-  Alert,
-  ActivityIndicator,
-  SafeAreaView,
-} from 'react-native';
+import {View, ScrollView, SafeAreaView, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {updateProfile, setProfile} from '../../redux/actions/profileActions';
+import {setProfile} from '../../redux/actions/profileActions';
 import ProfileHeader from '../../component/updateProfile/ProfileHeader';
 import ProfilePicture from '../../component/updateProfile/ProfilePicture';
 import ProfileForm from '../../component/ProfileForm/ProfileForm';
@@ -20,6 +14,9 @@ import {
 import styles from './Styles/UpdateProfileStyles';
 import ButtonComponent from '../../component/Button/ButtonComponent';
 import {AppDispatch} from '../../redux/store';
+import {isValidEmail, isValidPhoneNumber} from '../Utils/validationUtils'; 
+import LoadingSpinner from '../../component/Spinner/LoadingSpinner';
+
 const ProfileScreen: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const profile = useSelector((state: any) => state.profile);
@@ -28,6 +25,11 @@ const ProfileScreen: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isEditable, setIsEditable] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false); 
+
+  // State for error messages
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -44,20 +46,17 @@ const ProfileScreen: React.FC = () => {
     fetchUserId();
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const fetchUserData = async (userId: string) => {
     try {
       const userDoc = await firestore().collection('users').doc(userId).get();
       if (userDoc.exists) {
         const userData = userDoc.data();
         if (userData) {
-          console.log('userDatauserDatauserData', userData.profileImage);
           dispatch(setProfile(userData));
           setLocalProfile(userData); // Set local profile for form
           setProfileImage(userData.profileImage || null);
         } else {
           console.warn('User data is undefined.');
-          // Optionally, handle the case where userData is undefined
         }
       } else {
         console.warn('No user document found with this userId.');
@@ -72,22 +71,54 @@ const ProfileScreen: React.FC = () => {
   const handleSave = async () => {
     if (!userId) {
       Alert.alert('Error', 'User ID is not available.');
-      return; // Exit the function if userId is null
+      return;
     }
+
+    
+    setEmailError('');
+    setPhoneError('');
+
+    // Validate email and phone number
+    const emailValid = isValidEmail(localProfile.email);
+    const phoneValid = isValidPhoneNumber(localProfile.phoneNumber);
+
+    if (!emailValid) {
+      setEmailError('Please enter a valid email address.');
+    }
+
+    if (!phoneValid) {
+      setPhoneError('Please enter a valid phone number (10 digits).');
+    }
+
+    
+    if (!emailValid || !phoneValid) {
+      return;
+    }
+
+    setSaving(true); 
 
     try {
       const updatedProfile = {
         ...localProfile,
-        profilePic: profileImage,
+        profilePic: profileImage || '',
       };
 
       await firestore().collection('users').doc(userId).set(updatedProfile);
       dispatch(setProfile(updatedProfile));
       setIsEditable(false);
-      Alert.alert('Success', 'Profile updated successfully!');
+
+      Alert.alert(
+        'Profile Updated',
+        'Your profile has been successfully updated!',
+      );
     } catch (error) {
       console.error('Error saving user data: ', error);
-      Alert.alert('Error', 'Failed to update profile. Please try again.');
+      Alert.alert(
+        'Error',
+        'There was a problem updating your profile. Please try again.',
+      );
+    } finally {
+      setSaving(false); // Reset saving state
     }
   };
 
@@ -140,6 +171,7 @@ const ProfileScreen: React.FC = () => {
           setLocalProfile({...localProfile, email: text}),
         editable: isEditable,
         placeholder: 'Email',
+        error: emailError, 
       },
       {
         label: 'Phone Number',
@@ -148,6 +180,7 @@ const ProfileScreen: React.FC = () => {
           setLocalProfile({...localProfile, phoneNumber: text}),
         editable: isEditable,
         placeholder: 'Phone Number',
+        error: phoneError, 
       },
       {
         label: 'Mailing Address',
@@ -158,19 +191,14 @@ const ProfileScreen: React.FC = () => {
         placeholder: 'Mailing Address',
       },
     ],
-    [localProfile, isEditable],
+    [localProfile, isEditable, emailError, phoneError], 
   );
 
   if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="orange" />
-      </View>
-    );
+    return <LoadingSpinner />; 
   }
 
   return (
-    // eslint-disable-next-line react-native/no-inline-styles
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{marginTop: 6}}>
         <ProfileHeader profilePic={profileImage || profile.profilePic} />
@@ -186,7 +214,7 @@ const ProfileScreen: React.FC = () => {
           <ProfileForm fields={fields} />
 
           <ButtonComponent
-            title={isEditable ? 'Save' : 'Edit'}
+            title={isEditable ? (saving ? 'Saving...' : 'Save') : 'Edit'}
             onPress={isEditable ? handleSave : handleEdit}
             buttonStyle={{marginBottom: 40}}
           />

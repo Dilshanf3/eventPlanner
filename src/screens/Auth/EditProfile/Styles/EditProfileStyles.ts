@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
   },
+  errorText: {
+    color: 'red',
+    marginTop: 5,
+  },
   headerTitle: {
     fontSize: 22,
     fontWeight: '600',

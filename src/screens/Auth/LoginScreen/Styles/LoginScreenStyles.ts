@@ -30,6 +30,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
   },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
+    textAlign: 'left',
+  },
   buttonText: {
     color: '#fff',
     fontSize: 16,

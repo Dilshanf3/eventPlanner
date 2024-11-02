@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
+import {isValidEmail} from '../../Utils/validationUtils';
 
 const useLoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -11,60 +12,71 @@ const useLoginScreen = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigation = useNavigation();
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
   const toggleShowConfirmPassword = () =>
     setShowConfirmPassword(!showConfirmPassword);
   const handleSignUpToggle = () => setIsSignUp(!isSignUp);
-  const handleLoginToggle = () => setIsSignUp(false);
+  const handleLoginToggle = () => {
+    setIsSignUp(false);
+    setErrorMessage('');
+  };
 
   const handleSignUp = async () => {
-    // Check for empty strings
     if (
       email.trim() === '' ||
       password.trim() === '' ||
       confirmPassword.trim() === ''
     ) {
-      Alert.alert('Error', 'Required fields cannot be empty');
+      setErrorMessage('Required fields cannot be empty');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setErrorMessage('Please enter a valid email address.');
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match!');
+      setErrorMessage('Passwords do not match!');
       return;
     }
 
-    setLoading(true); // Show spinner
+    setLoading(true);
 
     try {
       await auth().createUserWithEmailAndPassword(email, password);
-
-      navigation.navigate('ProfileImageScreen'); // Navigate to Profile Image Screen
+      navigation.navigate('ProfileImageScreen');
     } catch (error) {
-      Alert.alert('Error', error.message);
+      setErrorMessage(error.message);
     } finally {
-      setLoading(false); // Hide spinner
+      setLoading(false);
     }
   };
 
   const handleLogin = async () => {
-    // Check for empty strings
     if (email.trim() === '' || password.trim() === '') {
-      Alert.alert('Error', 'Please fill in all fields.');
+      setErrorMessage('Please fill in all fields.');
       return;
     }
 
-    setLoading(true); // Show spinner
+    if (!isValidEmail(email)) {
+      setErrorMessage('Please enter a valid email address.');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       await auth().signInWithEmailAndPassword(email, password);
       Alert.alert('Success', 'Logged in successfully!');
-      navigation.navigate('Dashboard'); // Navigate to Profile Image Screen
+      navigation.navigate('Dashboard');
     } catch (error) {
-      Alert.alert('Error', error.message);
+      setErrorMessage(error.message);
     } finally {
-      setLoading(false); // Hide spinner
+      setLoading(false);
     }
   };
 
@@ -75,7 +87,8 @@ const useLoginScreen = () => {
     showPassword,
     showConfirmPassword,
     isSignUp,
-    loading, // Return loading state
+    loading,
+    errorMessage,
     setEmail,
     setPassword,
     setConfirmPassword,

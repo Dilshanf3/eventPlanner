@@ -2,8 +2,8 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 import CustomDrawerContent from './CustomDrawerContent';
-import EventScreen from '../screens/ContentScreens/EventScreen';
-import Dashboard from '../screens/Dashboard';
+import EventScreen from '../../screens/Home/EventScreen';
+import Dashboard from '../../screens/Dashboard/Dashboard';
 
 const Drawer = createDrawerNavigator();
 

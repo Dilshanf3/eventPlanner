@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text} from 'react-native';
 import {Strings} from '../constants/strings';
-import styles from '../styles/welcomeTextStyle';
+import styles from './updateProfile/Styles/welcomeTextStyle';
 
 interface WelcomeTextProps {
   message: string;

@@ -3,13 +3,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image} from 'react-native';
-import Dashboard from '../screens/Dashboard';
-import LoginScreen from '../screens/Auth/LoginScreen';
-import ProfileImageScreen from '../screens/Auth/profileImageScreen';
-import PersonalInfoScreen from '../screens/Auth/PersonalInfoScreen';
-import ProfileScreen from '../screens/ContentScreens/ProfileScreen';
-import PostsAndComments from '../screens/ContentScreens/PostsAndComments';
-import PhotosScreen from '../screens/ContentScreens/PhotosScreen';
+import Dashboard from '../../screens/Dashboard/Dashboard';
+import LoginScreen from '../../screens/Auth/LoginScreen/LoginScreen';
+import ProfileImageScreen from '../../screens/Auth/EditProfileImage/EditProfileImageScreen';
+import PersonalInfoScreen from '../../screens/Auth/EditProfile/EditProfileScreen';
+import ProfileScreen from '../../screens/Profile/UpdateProfileScreen';
+import PostsAndComments from '../../screens/Posts/PostsAndCommentsScreen';
+import PhotosScreen from '../../screens/Photos/PhotoGalleryScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +32,7 @@ const TabNavigator = () => {
           // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({color}) => (
             <Image
-              source={require('../assets/images/home.png')}
+              source={require('../../assets/images/home.png')}
               style={{width: 24, height: 24, tintColor: color}}
             />
           ),
@@ -46,7 +46,7 @@ const TabNavigator = () => {
           // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({color}) => (
             <Image
-              source={require('../assets/images/profile.png')}
+              source={require('../../assets/images/profile.png')}
               style={{width: 24, height: 24, tintColor: color}}
             />
           ),

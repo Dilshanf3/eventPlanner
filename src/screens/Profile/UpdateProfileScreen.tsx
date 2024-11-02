@@ -1,5 +1,11 @@
 import React, {useEffect, useState, useMemo} from 'react';
-import {View, ScrollView, Alert, ActivityIndicator} from 'react-native';
+import {
+  View,
+  ScrollView,
+  Alert,
+  ActivityIndicator,
+  SafeAreaView,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,11 +17,11 @@ import {
   launchImageLibrary,
   ImagePickerResponse,
 } from 'react-native-image-picker';
-import styles from '../../styles/profileStyles';
+import styles from './Styles/UpdateProfileStyles';
 import ButtonComponent from '../../component/Button/ButtonComponent';
-
+import {AppDispatch} from '../../redux/store';
 const ProfileScreen: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const profile = useSelector((state: any) => state.profile);
   const [localProfile, setLocalProfile] = useState(profile);
   const [userId, setUserId] = useState<string | null>(null);
@@ -38,15 +44,23 @@ const ProfileScreen: React.FC = () => {
     fetchUserId();
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const fetchUserData = async (userId: string) => {
     try {
       const userDoc = await firestore().collection('users').doc(userId).get();
       if (userDoc.exists) {
         const userData = userDoc.data();
-        console.log('userDatauserDatauserData', userData);
-        dispatch(setProfile(userData));
-        setLocalProfile(userData); // Set local profile for form
-        setProfileImage(userData.profilePic || null);
+        if (userData) {
+          console.log('userDatauserDatauserData', userData.profileImage);
+          dispatch(setProfile(userData));
+          setLocalProfile(userData); // Set local profile for form
+          setProfileImage(userData.profileImage || null);
+        } else {
+          console.warn('User data is undefined.');
+          // Optionally, handle the case where userData is undefined
+        }
+      } else {
+        console.warn('No user document found with this userId.');
       }
     } catch (error) {
       console.error('Error fetching user data: ', error);
@@ -56,6 +70,11 @@ const ProfileScreen: React.FC = () => {
   };
 
   const handleSave = async () => {
+    if (!userId) {
+      Alert.alert('Error', 'User ID is not available.');
+      return; // Exit the function if userId is null
+    }
+
     try {
       const updatedProfile = {
         ...localProfile,
@@ -68,6 +87,7 @@ const ProfileScreen: React.FC = () => {
       Alert.alert('Success', 'Profile updated successfully!');
     } catch (error) {
       console.error('Error saving user data: ', error);
+      Alert.alert('Error', 'Failed to update profile. Please try again.');
     }
   };
 
@@ -76,7 +96,6 @@ const ProfileScreen: React.FC = () => {
   };
 
   const handleProfilePhotoUpload = () => {
-    console.log('ggggggg');
     launchImageLibrary(
       {
         mediaType: 'photo',
@@ -151,24 +170,29 @@ const ProfileScreen: React.FC = () => {
   }
 
   return (
-    <View style={{backgroundColor: 'white'}}>
+    // eslint-disable-next-line react-native/no-inline-styles
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{marginTop: 6}}>
         <ProfileHeader profilePic={profileImage || profile.profilePic} />
+
         <ScrollView
           contentContainerStyle={styles.container}
-          showsVerticalScrollIndicator={false}>
+          showsVerticalScrollIndicator={false}
+          style={{flexGrow: 1}}>
           <ProfilePicture
             profilePic={profileImage || profile.profilePic}
-            onPress={isEditable ? handleProfilePhotoUpload : undefined}
+            onPress={isEditable ? handleProfilePhotoUpload : () => {}}
           />
           <ProfileForm fields={fields} />
+
           <ButtonComponent
             title={isEditable ? 'Save' : 'Edit'}
             onPress={isEditable ? handleSave : handleEdit}
+            buttonStyle={{marginBottom: 40}}
           />
         </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

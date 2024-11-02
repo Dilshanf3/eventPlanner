@@ -8,8 +8,8 @@ import {
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import styles from '../styles/customDrawerStyles';
-import {Strings} from '../constants/strings';
+import styles from './Styles/customDrawerStyles';
+import {Strings} from '../../constants/strings';
 
 const CustomDrawerContent = props => {
   const navigation = useNavigation();
@@ -39,7 +39,7 @@ const CustomDrawerContent = props => {
           source={
             profile.profilePic
               ? {uri: profile.profilePic}
-              : require('../assets/images/profilepic.png')
+              : require('../../assets/images/profilepic.png')
           }
           style={styles.profileImage}
         />
@@ -59,7 +59,7 @@ const CustomDrawerContent = props => {
       <View style={styles.footer}>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Image
-            source={require('../assets/images/Logout.png')}
+            source={require('../../assets/images/Logout.png')}
             style={styles.logoutIcon}
           />
           <Text style={styles.logoutText}>{Strings.logout}</Text>

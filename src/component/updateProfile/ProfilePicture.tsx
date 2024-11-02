@@ -10,6 +10,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
   profilePic,
   onPress,
 }) => {
+  console.log('Profile Picture Base64:', profilePic); // This will log the base64 string
   return (
     <View style={styles.profilePicContainer}>
       <TouchableOpacity onPress={onPress} style={styles.touchable}>

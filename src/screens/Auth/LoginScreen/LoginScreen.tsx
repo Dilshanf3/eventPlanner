@@ -1,13 +1,12 @@
 import React from 'react';
-import {Text, TouchableOpacity, Image} from 'react-native';
+import {Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import InputField from '../../component/InputField';
 import useLoginScreen from './useLoginScreen';
 import Spinner from 'react-native-loading-spinner-overlay';
-import styles from '../../styles/loginStyles';
-import {Strings} from '../../constants/strings';
-import ButtonComponent from '../../component/Button/ButtonComponent';
-import TextInputFieldComponent from '../../component/Input/TextInputField';
+import styles from './Styles/LoginScreenStyles';
+import {Strings} from '../../../constants/strings';
+import ButtonComponent from '../../../component/Button/ButtonComponent';
+import TextInputFieldComponent from '../../../component/Input/TextInputField';
 const LoginScreen = () => {
   const {
     email,
@@ -47,7 +46,7 @@ const LoginScreen = () => {
         label="Email"
         value={email}
         onChangeText={setEmail}
-        icon={require('../../assets/images/mail.png')}
+        icon={require('../../../assets/images/mail.png')}
         placeholder="your.email@gmail.com"
         enableUnderLine={false}
       />
@@ -59,9 +58,9 @@ const LoginScreen = () => {
         secureTextEntry={!showPassword}
         showToggle={true}
         toggleShow={toggleShowPassword}
-        icon={require('../../assets/images/lock.png')}
-        showPasswordIcon={require('../../assets/images/eye.png')}
-        hidePasswordIcon={require('../../assets/images/eye.png')}
+        icon={require('../../../assets/images/lock.png')}
+        showPasswordIcon={require('../../../assets/images/eye.png')}
+        hidePasswordIcon={require('../../../assets/images/eye.png')}
         placeholder="Password"
         enableUnderLine={false}
       />
@@ -74,9 +73,9 @@ const LoginScreen = () => {
           secureTextEntry={!showConfirmPassword}
           showToggle={true}
           toggleShow={toggleShowConfirmPassword}
-          icon={require('../../assets/images/lock.png')}
-          showPasswordIcon={require('../../assets/images/eye.png')}
-          hidePasswordIcon={require('../../assets/images/eye.png')}
+          icon={require('../../../assets/images/lock.png')}
+          showPasswordIcon={require('../../../assets/images/eye.png')}
+          hidePasswordIcon={require('../../../assets/images/eye.png')}
           placeholder="Confirm Password"
           enableUnderLine={false}
         />
@@ -86,7 +85,7 @@ const LoginScreen = () => {
       <ButtonComponent
         title="Login"
         onPress={isSignUp ? handleSignUp : handleLogin}
-        icon={require('../../assets/images/arrow.png')}
+        icon={require('../../../assets/images/arrow.png')}
         enabled={true}
       />
 
@@ -94,7 +93,7 @@ const LoginScreen = () => {
       <ButtonComponent
         title={isSignUp ? 'Back to Login' : 'Sign Up'}
         onPress={isSignUp ? handleLoginToggle : handleSignUpToggle}
-        icon={require('../../assets/images/arrow.png')}
+        icon={require('../../../assets/images/arrow.png')}
         enabled={true}
       />
     </SafeAreaView>

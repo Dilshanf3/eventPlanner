@@ -5,11 +5,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ScrollView} from 'react-native-gesture-handler';
-import ProfileForm from '../../component/ProfileForm/ProfileForm';
-import ButtonComponent from '../../component/Button/ButtonComponent';
-import {updateProfile, fetchProfile} from '../../redux/actions/profileActions';
-import styles from '../../styles/personalInfoStyles';
-import {Strings} from '../../constants/strings';
+import ProfileForm from '../../../component/ProfileForm/ProfileForm';
+import ButtonComponent from '../../../component/Button/ButtonComponent';
+import {
+  updateProfile,
+  fetchProfile,
+} from '../../../redux/actions/profileActions';
+import styles from './Styles/EditProfileStyles';
+import {Strings} from '../../../constants/strings';
 
 type RootStackParamList = {
   PersonalInfo: {
@@ -92,7 +95,7 @@ const PersonalInfoScreen: React.FC = () => {
           profileImage: route.params?.profileImage,
           createdAt: firestore.FieldValue.serverTimestamp(),
         });
-       dispatch(updateProfile(localProfile)); // Save to Redux and AsyncStorage
+      dispatch(updateProfile(localProfile)); // Save to Redux and AsyncStorage
       Alert.alert('Info Saved', 'Your personal information has been saved.');
       navigation.navigate('Dashboard');
     } catch (error) {
@@ -105,10 +108,9 @@ const PersonalInfoScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.headerTitle}>{Strings.personalInfo}</Text>
+      <Text style={styles.headerSubtitle}>{Strings.personalInfoContent}</Text>
       <ScrollView>
-        <Text style={styles.headerTitle}>{Strings.personalInfo}</Text>
-        <Text style={styles.headerSubtitle}>{Strings.personalInfoContent}</Text>
-
         <ProfileForm fields={fields} />
 
         <View style={styles.buttonContainer}>
@@ -118,7 +120,7 @@ const PersonalInfoScreen: React.FC = () => {
             buttonStyle={styles.backButton}
             textStyle={styles.backButtonText}
             isBackButton={true}
-            icon={require('../../assets/images/back_arrow.png')}
+            icon={require('../../../assets/images/back_arrow.png')}
             enabled={true}
           />
 
@@ -127,7 +129,7 @@ const PersonalInfoScreen: React.FC = () => {
             onPress={savePersonalInfo}
             buttonStyle={styles.nextButton}
             textStyle={styles.nextButtonText}
-            icon={require('../../assets/images/arrow.png')}
+            icon={require('../../../assets/images/arrow.png')}
             enabled={true}
           />
         </View>

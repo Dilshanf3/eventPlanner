@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, ActivityIndicator} from 'react-native';
 import {fetchPosts, fetchComments} from '../../services/apiActions';
 import {Post, Comment} from '../../types';
-import styles from '../../styles/postsStyles';
+import styles from './Styles/PostsAndCommentsStyles';
 import {Strings} from '../../constants/strings';
 
 const PostsAndComments: React.FC = () => {

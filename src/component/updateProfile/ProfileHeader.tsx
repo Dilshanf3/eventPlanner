@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
-import styles from '../../styles/profileHeaderStyles';
+import styles from './Styles/profileHeaderStyles';
 import {Strings} from '../../constants/strings';
 interface ProfileHeaderProps {
   profilePic: string | null; // Accept profilePic as a prop

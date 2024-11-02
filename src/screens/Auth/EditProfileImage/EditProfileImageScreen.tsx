@@ -6,10 +6,10 @@ import {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import UploadButton from '../../component/ImageUpload/UploadButton';
-import WelcomeText from '../../component/WelcomeText';
-import styles from '../../styles/profileImageStyles';
-import ButtonComponent from '../../component/Button/ButtonComponent';
+import UploadButton from '../../../component/ImageUpload/UploadButton';
+import WelcomeText from '../../../component/WelcomeText';
+import styles from './Styles/EditProfileImageScreen';
+import ButtonComponent from '../../../component/Button/ButtonComponent';
 
 // Define the type for your stack navigator
 type RootStackParamList = {
@@ -63,13 +63,13 @@ const ProfileImageScreen: React.FC = () => {
       <UploadButton
         profileImage={profileImage}
         onUpload={handleProfilePhotoUpload}
-        sourceImage={require('../../assets/images/Union.png')}
+        sourceImage={require('../../../assets/images/Union.png')}
       />
       <View style={styles.nextButton}>
         <ButtonComponent
           title="Continue"
           onPress={handleNext}
-          icon={require('../../assets/images/arrow.png')}
+          icon={require('../../../assets/images/arrow.png')}
           enabled={true}
         />
       </View>

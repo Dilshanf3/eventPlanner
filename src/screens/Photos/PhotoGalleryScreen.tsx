@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {fetchImages} from '../../services/apiActions';
-import styles from '../../styles/galleryStyles';
+import styles from './Styles/PhotoGalleryStyles';
 import {Strings} from '../../constants/strings';
 
 const PhotosScreen: React.FC = () => {

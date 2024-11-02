@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
-import styles from '../../styles/uploadButtonStyle';
+import styles from './uploadButtonStyle';
 
 interface UploadButtonProps {
   profileImage: string | any | null; // Accept both 'require' images and URIs

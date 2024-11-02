@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import styles from '../../styles/eventStyles';
+import styles from './Styles/EventScreenStyles';
 import {Strings} from '../../constants/strings';
 import {
   fetchOrganizers,
@@ -18,7 +18,6 @@ import {
 } from '../../services/apiActions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types';
-// Define types for the data structures
 interface Organizer {
   id: string;
   name: string;
@@ -30,7 +29,6 @@ interface ImageItem {
   url: string;
   title: string;
 }
-
 interface Post {
   id: string;
 }

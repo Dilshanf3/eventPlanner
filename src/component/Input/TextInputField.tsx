@@ -8,7 +8,7 @@ import {
   StyleSheet,
   TextInputProps,
 } from 'react-native';
-import styles from '../../styles/profileInputStyle';
+import styles from './TextInputFieldStyle';
 
 interface TextInputFieldProps extends TextInputProps {
   label: string;

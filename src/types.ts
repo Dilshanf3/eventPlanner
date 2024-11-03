@@ -1,4 +1,5 @@
 // src/types.ts
+import ScreenNames from './constants/screenNames';
 
 export interface Post {
   userId: number;
@@ -16,8 +17,18 @@ export interface Comment {
 }
 
 export type RootStackParamList = {
+  [ScreenNames.LOGIN]: undefined;
+  [ScreenNames.DASHBOARD]: undefined;
+  [ScreenNames.PROFILE_IMAGE]: undefined;
+
+  [ScreenNames.PROFILE]: undefined;
+  [ScreenNames.POSTS_AND_COMMENTS]: undefined;
+  [ScreenNames.PHOTOS_SCREEN]: undefined;
+  [ScreenNames.PERSONAL_INFO]: {
+    profileImage: string | undefined;
+    welcomeMessage: string;
+  };
   EventScreen: undefined;
   PostsAndComments: undefined;
   PhotosScreen: undefined;
-  // Add other screens as needed
 };

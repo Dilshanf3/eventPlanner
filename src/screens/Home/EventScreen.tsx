@@ -18,6 +18,9 @@ import {
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types';
 import LoadingSpinner from '../../component/Spinner/LoadingSpinner';
+import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
+import ScreenNames from '../../constants/screenNames';
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 interface Organizer {
   id: string;
   name: string;
@@ -32,13 +35,9 @@ interface ImageItem {
 interface Post {
   id: string;
 }
-type EventScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'EventScreen'
->;
 
 const EventScreen: React.FC = () => {
-  const navigation = useNavigation<EventScreenNavigationProp>();
+  const navigation = useNavigation<NavigationProp>();
   const [organizers, setOrganizers] = useState<Organizer[]>([]);
   const [images, setImages] = useState<ImageItem[]>([]);
   const [posts, setPosts] = useState<Post[]>([]); // Ensure Post interface aligns with incoming data
@@ -74,7 +73,8 @@ const EventScreen: React.FC = () => {
         <Text style={styles.organizerName}>{item.name}</Text>
         <Text style={styles.organizerEmail}>{item.email}</Text>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('PostsAndComments')}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(ScreenNames.POSTS_AND_COMMENTS)}>
         <Image
           source={require('../../assets/images/chat.png')}
           style={styles.chatIcon}
@@ -134,7 +134,8 @@ const EventScreen: React.FC = () => {
       <View style={styles.photosContainer}>
         <View style={styles.photosHeader}>
           <Text style={styles.sectionTitle}>{Strings.photoes}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('PhotosScreen')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(ScreenNames.PHOTOS_SCREEN)}>
             <Text style={styles.allPhotosLink}>{Strings.all_Photos}</Text>
           </TouchableOpacity>
         </View>
@@ -150,7 +151,7 @@ const EventScreen: React.FC = () => {
       <View style={styles.postCountContainer}>
         <TouchableOpacity
           style={styles.postCountContainer}
-          onPress={() => navigation.navigate('PostsAndComments')} // Navigate to PostsAndComments
+          onPress={() => navigation.navigate(ScreenNames.POSTS_AND_COMMENTS)} // Navigate to PostsAndComments
         >
           <Text style={styles.postCountNumber}>{posts.length}</Text>
           <Text style={styles.postCountLabel}>{Strings.posts}</Text>

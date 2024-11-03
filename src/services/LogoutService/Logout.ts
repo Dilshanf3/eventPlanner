@@ -6,6 +6,7 @@ import {ThunkAction} from 'redux-thunk';
 import {AnyAction} from 'redux';
 import {RootState} from '../../redux/store'; // Adjust path to your store file
 import {setProfile} from '../../redux/actions/profileActions';
+import ScreenNames from '../../constants/screenNames';
 
 export const handleLogout = (
   navigation: NavigationProp<any>,
@@ -19,7 +20,7 @@ export const handleLogout = (
 
       dispatch(setProfile({}));
 
-      navigation.navigate('Login');
+      navigation.navigate(ScreenNames.LOGIN);
     } catch (error) {
       console.error('Logout error:', error);
     }

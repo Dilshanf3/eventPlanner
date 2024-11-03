@@ -14,7 +14,10 @@ import styles from './Styles/EditProfileStyles';
 import {Strings} from '../../../constants/strings';
 import {isValidEmail, isValidPhoneNumber} from '../../Utils/validationUtils';
 import LoadingSpinner from '../../../component/Spinner/LoadingSpinner';
+import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
+import ScreenNames from '../../../constants/screenNames';
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 // types for the stack param list
 type RootStackParamList = {
   PersonalInfo: {
@@ -36,7 +39,8 @@ interface ProfileState {
 }
 
 const PersonalInfoScreen: React.FC = () => {
-  const navigation = useNavigation();
+
+  const navigation = useNavigation<NavigationProp>();
   const route = useRoute<PersonalInfoRouteProp>();
   const dispatch = useDispatch();
 
@@ -135,7 +139,7 @@ const PersonalInfoScreen: React.FC = () => {
             createdAt: firestore.FieldValue.serverTimestamp(),
           });
         dispatch(updateProfile(localProfile)); // Save to Redux
-        navigation.navigate('Dashboard'); // Navigate to Dashboard
+        navigation.navigate(ScreenNames.DASHBOARD);
       } else {
         Alert.alert('Error', 'User ID not found.');
       }

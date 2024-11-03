@@ -5,8 +5,14 @@ import {
   signUpWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from '../../../services/LoginService/authService';
+import ScreenNames from '../../../constants/screenNames';
+import {RootStackParamList} from '../../../types';
+import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const useLoginScreen = () => {
+  const navigation = useNavigation<NavigationProp>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -15,7 +21,7 @@ const useLoginScreen = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const navigation = useNavigation();
+ 
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
   const toggleShowConfirmPassword = () =>
@@ -58,7 +64,7 @@ const useLoginScreen = () => {
     try {
       await signUpWithEmailAndPassword(email, password); // Use the utility function for sign-up
       resetForm(); // Reset form fields after successful sign-up
-      navigation.navigate('ProfileImageScreen');
+      navigation.navigate(ScreenNames.PROFILE_IMAGE);
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
@@ -82,7 +88,7 @@ const useLoginScreen = () => {
     try {
       await signInWithEmailAndPassword(email, password); // Use the utility function for login
       resetForm(); // Reset form fields after successful login
-      navigation.navigate('Dashboard');
+      navigation.navigate(ScreenNames.DASHBOARD);
     } catch (error) {
       setErrorMessage(error.message);
     } finally {

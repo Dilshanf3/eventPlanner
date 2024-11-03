@@ -7,6 +7,6 @@ export const isValidEmail = (email: string): boolean => {
 
 // Phone number validation function
 export const isValidPhoneNumber = (phone: string): boolean => {
-  const phonePattern = /^\d{10}$/; // Example for 10 digit numbers
+  const phonePattern = /^\d{10}$/; //for 10 digit numbers this can be change
   return phonePattern.test(phone);
 };

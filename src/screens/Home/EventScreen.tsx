@@ -18,6 +18,7 @@ import {
 } from '../../services/apiActions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types';
+import LoadingSpinner from '../../component/Spinner/LoadingSpinner';
 interface Organizer {
   id: string;
   name: string;
@@ -92,11 +93,7 @@ const EventScreen: React.FC = () => {
   );
 
   if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#D36F56" />
-      </View>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

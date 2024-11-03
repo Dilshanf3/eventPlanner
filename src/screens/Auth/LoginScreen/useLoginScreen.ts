@@ -1,8 +1,10 @@
 import {useState} from 'react';
-import {Alert} from 'react-native';
-import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {isValidEmail} from '../../Utils/validationUtils';
+import {
+  signUpWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from '../../../services/LoginService/authService';
 
 const useLoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -21,6 +23,13 @@ const useLoginScreen = () => {
   const handleSignUpToggle = () => setIsSignUp(!isSignUp);
   const handleLoginToggle = () => {
     setIsSignUp(false);
+    setErrorMessage('');
+  };
+
+  const resetForm = () => {
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
     setErrorMessage('');
   };
 
@@ -47,7 +56,8 @@ const useLoginScreen = () => {
     setLoading(true);
 
     try {
-      await auth().createUserWithEmailAndPassword(email, password);
+      await signUpWithEmailAndPassword(email, password); // Use the utility function for sign-up
+      resetForm(); // Reset form fields after successful sign-up
       navigation.navigate('ProfileImageScreen');
     } catch (error) {
       setErrorMessage(error.message);
@@ -70,8 +80,8 @@ const useLoginScreen = () => {
     setLoading(true);
 
     try {
-      await auth().signInWithEmailAndPassword(email, password);
-      Alert.alert('Success', 'Logged in successfully!');
+      await signInWithEmailAndPassword(email, password); // Use the utility function for login
+      resetForm(); // Reset form fields after successful login
       navigation.navigate('Dashboard');
     } catch (error) {
       setErrorMessage(error.message);

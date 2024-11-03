@@ -1,0 +1,188 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ProfileImageScreen /> renders correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#FFFFFF",
+      "flex": 1,
+      "justifyContent": "center",
+      "paddingHorizontal": 20,
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "color": "#1A1A1A",
+        "fontSize": 32,
+        "fontWeight": "600",
+        "marginBottom": 10,
+        "textAlign": "center",
+      }
+    }
+  >
+    Welcome
+  </Text>
+  <Text
+    style={
+      {
+        "color": "#6D6D6D",
+        "fontSize": 16,
+        "marginBottom": 40,
+        "textAlign": "center",
+      }
+    }
+  >
+    You are logged in for the first time and can upload a profile photo.
+  </Text>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "alignSelf": "center",
+        "backgroundColor": "#F4E6E2",
+        "borderRadius": 75,
+        "height": 150,
+        "justifyContent": "center",
+        "opacity": 1,
+        "width": 150,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Image
+        source={
+          {
+            "testUri": "../../../src/assets/images/Union.png",
+          }
+        }
+        style={
+          {
+            "height": 40,
+            "resizeMode": "contain",
+            "tintColor": "#D36F56",
+            "width": 40,
+          }
+        }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "marginTop": "80%",
+      }
+    }
+  >
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "backgroundColor": "#DA5E42",
+          "borderRadius": 5,
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginTop": 20,
+          "opacity": 1,
+          "paddingVertical": 15,
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#fff",
+              "fontSize": 16,
+              "marginRight": 10,
+            },
+            undefined,
+          ]
+        }
+      >
+        Continue
+      </Text>
+      <Image
+        source={
+          {
+            "testUri": "../../../src/assets/images/arrow.png",
+          }
+        }
+        style={
+          {
+            "height": 24,
+            "resizeMode": "contain",
+            "width": 24,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

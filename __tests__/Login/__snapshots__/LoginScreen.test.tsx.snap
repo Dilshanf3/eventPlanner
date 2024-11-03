@@ -1,0 +1,392 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoginScreen /> renders correctly 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "backgroundColor": "#fff",
+      "flex": 1,
+      "justifyContent": "center",
+      "paddingHorizontal": 20,
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "color": "#191C1E",
+        "fontSize": 32,
+        "fontWeight": "bold",
+        "marginBottom": 5,
+        "textAlign": "center",
+      }
+    }
+  >
+    Welcome
+  </Text>
+  <Text
+    style={
+      {
+        "color": "#757779",
+        "fontSize": 16,
+        "marginBottom": 40,
+        "textAlign": "center",
+      }
+    }
+  >
+    Welcome to your Portal
+  </Text>
+  <View
+    style={
+      {
+        "marginBottom": 15,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#444749",
+          "fontSize": 16,
+          "marginBottom": 5,
+        }
+      }
+    >
+      Email
+    </Text>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "backgroundColor": "#DA5E4214",
+          "borderRadius": 5,
+          "flexDirection": "row",
+          "paddingHorizontal": 5,
+          "textAlign": "left",
+        }
+      }
+    >
+      <Image
+        source={
+          {
+            "testUri": "../../../src/assets/images/mail.png",
+          }
+        }
+        style={
+          {
+            "marginHorizontal": 5,
+          }
+        }
+      />
+      <TextInput
+        editable={true}
+        enableUnderLine={false}
+        onChangeText={[MockFunction]}
+        placeholder="your.email@gmail.com"
+        placeholderTextColor="#444749"
+        secureTextEntry={false}
+        style={
+          [
+            {
+              "color": "#444749",
+              "flex": 1,
+              "fontSize": 16,
+              "paddingHorizontal": 2,
+              "paddingVertical": 10,
+            },
+            {
+              "paddingLeft": 20,
+            },
+          ]
+        }
+        value=""
+      />
+    </View>
+    <View
+      style={
+        {
+          "backgroundColor": "#444749",
+          "height": 1,
+          "marginTop": -5,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "marginBottom": 15,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#444749",
+          "fontSize": 16,
+          "marginBottom": 5,
+        }
+      }
+    >
+      Password
+    </Text>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "backgroundColor": "#DA5E4214",
+          "borderRadius": 5,
+          "flexDirection": "row",
+          "paddingHorizontal": 5,
+          "textAlign": "left",
+        }
+      }
+    >
+      <Image
+        source={
+          {
+            "testUri": "../../../src/assets/images/lock.png",
+          }
+        }
+        style={
+          {
+            "marginHorizontal": 5,
+          }
+        }
+      />
+      <TextInput
+        editable={true}
+        enableUnderLine={false}
+        onChangeText={[MockFunction]}
+        placeholder="Password"
+        placeholderTextColor="#444749"
+        secureTextEntry={true}
+        style={
+          [
+            {
+              "color": "#444749",
+              "flex": 1,
+              "fontSize": 16,
+              "paddingHorizontal": 2,
+              "paddingVertical": 10,
+            },
+            {
+              "paddingLeft": 20,
+            },
+          ]
+        }
+        value=""
+      />
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+            "padding": 5,
+            "position": "absolute",
+            "right": 10,
+          }
+        }
+      >
+        <Image
+          source={
+            {
+              "testUri": "../../../src/assets/images/eye.png",
+            }
+          }
+          style={
+            {
+              "marginHorizontal": 5,
+            }
+          }
+        />
+      </View>
+    </View>
+    <View
+      style={
+        {
+          "backgroundColor": "#444749",
+          "height": 1,
+          "marginTop": -5,
+        }
+      }
+    />
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#DA5E42",
+        "borderRadius": 5,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "marginTop": 20,
+        "opacity": 1,
+        "paddingVertical": 15,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "color": "#fff",
+            "fontSize": 16,
+            "marginRight": 10,
+          },
+          undefined,
+        ]
+      }
+    >
+      Login
+    </Text>
+    <Image
+      source={
+        {
+          "testUri": "../../../src/assets/images/arrow.png",
+        }
+      }
+      style={
+        {
+          "height": 24,
+          "resizeMode": "contain",
+          "width": 24,
+        }
+      }
+    />
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#DA5E42",
+        "borderRadius": 5,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "marginTop": 20,
+        "opacity": 1,
+        "paddingVertical": 15,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "color": "#fff",
+            "fontSize": 16,
+            "marginRight": 10,
+          },
+          undefined,
+        ]
+      }
+    >
+      Sign Up
+    </Text>
+    <Image
+      source={
+        {
+          "testUri": "../../../src/assets/images/arrow.png",
+        }
+      }
+      style={
+        {
+          "height": 24,
+          "resizeMode": "contain",
+          "width": 24,
+        }
+      }
+    />
+  </View>
+</RNCSafeAreaView>
+`;

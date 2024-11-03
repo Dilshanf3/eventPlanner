@@ -1,33 +1,29 @@
+// CustomDrawerContent.tsx
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
+  DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import auth from '@react-native-firebase/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
 import styles from './Styles/customDrawerStyles';
 import {Strings} from '../../constants/strings';
+import {handleLogout} from '../../services/LogoutService/Logout';
+import {RootState} from '../../redux/store';
 
-const CustomDrawerContent = props => {
-  const navigation = useNavigation();
-  // Access user profile from Redux store
-  const profile = useSelector(state => state.profile);
+interface Profile {
+  profilePic?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
 
-  // Function to handle user logout
-  const handleLogout = async () => {
-    try {
-      await auth().signOut(); // Sign out from Firebase
-      await AsyncStorage.clear(); // Clear AsyncStorage
-
-      navigation.navigate('Login'); // Navigate to the login screen after logout
-    } catch (error) {
-      console.error('Error logging out:', error);
-      alert('Logout failed. Please try again.');
-    }
-  };
+const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
+  const navigation = useNavigation<NavigationProp<any>>();
+  const dispatch = useDispatch();
+  const profile = useSelector<RootState, Profile>(state => state.profile);
 
   return (
     <DrawerContentScrollView
@@ -43,7 +39,6 @@ const CustomDrawerContent = props => {
           }
           style={styles.profileImage}
         />
-
         <Text style={styles.profileName}>
           {profile.firstName} {profile.lastName}
         </Text>
@@ -57,7 +52,9 @@ const CustomDrawerContent = props => {
 
       {/* Logout Section */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <TouchableOpacity
+          style={styles.logoutButton}
+          onPress={() => dispatch(handleLogout(navigation))}>
           <Image
             source={require('../../assets/images/Logout.png')}
             style={styles.logoutIcon}

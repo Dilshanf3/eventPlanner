@@ -21,4 +21,7 @@ export const fetchProfile = () => async (dispatch: any) => {
   if (storedProfile) {
     dispatch({type: 'SET_PROFILE', payload: JSON.parse(storedProfile)});
   }
+  
 };
+
+

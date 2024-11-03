@@ -14,7 +14,7 @@ import {
 import styles from './Styles/UpdateProfileStyles';
 import ButtonComponent from '../../component/Button/ButtonComponent';
 import {AppDispatch} from '../../redux/store';
-import {isValidEmail, isValidPhoneNumber} from '../Utils/validationUtils'; 
+import {isValidEmail, isValidPhoneNumber} from '../Utils/validationUtils';
 import LoadingSpinner from '../../component/Spinner/LoadingSpinner';
 
 const ProfileScreen: React.FC = () => {
@@ -25,7 +25,7 @@ const ProfileScreen: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isEditable, setIsEditable] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false); 
+  const [saving, setSaving] = useState(false);
 
   // State for error messages
   const [emailError, setEmailError] = useState('');
@@ -74,7 +74,6 @@ const ProfileScreen: React.FC = () => {
       return;
     }
 
-    
     setEmailError('');
     setPhoneError('');
 
@@ -90,12 +89,11 @@ const ProfileScreen: React.FC = () => {
       setPhoneError('Please enter a valid phone number (10 digits).');
     }
 
-    
     if (!emailValid || !phoneValid) {
       return;
     }
 
-    setSaving(true); 
+    setSaving(true);
 
     try {
       const updatedProfile = {
@@ -171,7 +169,7 @@ const ProfileScreen: React.FC = () => {
           setLocalProfile({...localProfile, email: text}),
         editable: isEditable,
         placeholder: 'Email',
-        error: emailError, 
+        error: emailError,
       },
       {
         label: 'Phone Number',
@@ -180,7 +178,7 @@ const ProfileScreen: React.FC = () => {
           setLocalProfile({...localProfile, phoneNumber: text}),
         editable: isEditable,
         placeholder: 'Phone Number',
-        error: phoneError, 
+        error: phoneError,
       },
       {
         label: 'Mailing Address',
@@ -191,11 +189,11 @@ const ProfileScreen: React.FC = () => {
         placeholder: 'Mailing Address',
       },
     ],
-    [localProfile, isEditable, emailError, phoneError], 
+    [localProfile, isEditable, emailError, phoneError],
   );
 
   if (loading) {
-    return <LoadingSpinner />; 
+    return <LoadingSpinner />;
   }
 
   return (

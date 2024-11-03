@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#555',
   },
+  
 });
 
 export default styles;

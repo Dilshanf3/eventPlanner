@@ -6,6 +6,7 @@ import {fetchPosts, fetchComments} from '../../services/apiActions';
 import {Post, Comment} from '../../types';
 import styles from './Styles/PostsAndCommentsStyles';
 import {Strings} from '../../constants/strings';
+import LoadingSpinner from '../../component/Spinner/LoadingSpinner';
 
 const PostsAndComments: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -54,12 +55,7 @@ const PostsAndComments: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FFA500" />
-        <Text style={styles.loadingText}>{Strings.post_loading}</Text>
-      </View>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

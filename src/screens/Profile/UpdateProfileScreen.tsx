@@ -15,6 +15,7 @@ import ButtonComponent from '../../component/Button/ButtonComponent';
 import {AppDispatch} from '../../redux/store';
 import {isValidEmail, isValidPhoneNumber} from '../Utils/validationUtils';
 import LoadingSpinner from '../../component/Spinner/LoadingSpinner';
+import {useFocusEffect} from '@react-navigation/native'; // Import useFocusEffect
 
 const ProfileScreen: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,14 +31,7 @@ const ProfileScreen: React.FC = () => {
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
 
-  useEffect(() => {
-    if (userId) {
-      fetchUserData(userId);
-    } else {
-      setLoading(false);
-    }
-  }, [userId]);
-
+  // Function to fetch user data
   const fetchUserData = async (userId: string) => {
     try {
       const userDoc = await firestore().collection('users').doc(userId).get();
@@ -59,6 +53,18 @@ const ProfileScreen: React.FC = () => {
       setLoading(false);
     }
   };
+
+  // Fetch user data when the component is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      if (userId) {
+        setLoading(true); // Set loading state before fetching
+        fetchUserData(userId);
+      } else {
+        setLoading(false);
+      }
+    }, [userId]),
+  );
 
   const handleSave = async () => {
     if (!userId) {

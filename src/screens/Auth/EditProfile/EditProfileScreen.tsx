@@ -50,9 +50,9 @@ const PersonalInfoScreen: React.FC = () => {
   const [emailError, setEmailError] = useState<string>('');
   const [phoneError, setPhoneError] = useState<string>('');
 
-  useEffect(() => {
-    dispatch(fetchProfile());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchProfile());
+  // }, [dispatch]);
 
   const fields = useMemo(() => {
     return [

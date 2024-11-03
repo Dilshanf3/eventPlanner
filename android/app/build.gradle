@@ -123,6 +123,7 @@ project.ext.react = [
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+             matchingFallbacks = ['debug', 'release']
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -132,6 +133,14 @@ project.ext.react = [
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    flavorDimensions "default"
+    productFlavors {
+    production {}
+    staging {
+
+    }
+    development {}
+ }
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
@@ -169,5 +178,15 @@ dependencies {
     }
 }
 
+ project.ext.envConfigFiles = [
+ productiondebug: ".env.production",
+ productionrelease: ".env.production",
+ developmentrelease: ".env.development",
+ developmentdebug: ".env.development",
+ stagingrelease: ".env.staging",
+ stagingdebug: ".env.staging"
+ ]
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 apply plugin: 'com.google.gms.google-services'

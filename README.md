@@ -16,7 +16,7 @@ EventPlanner is a React Native application designed to provide users with a comp
 - Signup: New users can create accounts easily and start engaging with events.
 - Edit Profile: Users have the option to edit their profile information.
 - Event Screen: A dedicated screen to view event details, images, and organizers.
-- Post and Comment: Users can view posts related to events and add comments.
+- Post and Comment: Users can view posts related to events.
 - Logout: Users can log out of their accounts securely.
 - Bottom Navigation: Easy navigation through different sections of the app using a bottom navigation bar.
 - Drawer Navigation: Access to additional options and features via a side drawer menu.

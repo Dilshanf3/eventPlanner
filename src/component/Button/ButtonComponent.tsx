@@ -15,8 +15,8 @@ interface ButtonProps {
   buttonStyle?: ViewStyle;
   textStyle?: TextStyle;
   enabled?: boolean;
-  icon?: ImageSourcePropType; // Accepts a source for the icon image
-  isBackButton?: boolean; // New prop to check if it's a back button
+  icon?: ImageSourcePropType;
+  isBackButton?: boolean;
 }
 
 const ButtonComponent: React.FC<ButtonProps> = ({

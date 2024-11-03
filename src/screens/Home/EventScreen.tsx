@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
-  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styles from './Styles/EventScreenStyles';

@@ -1,5 +1,7 @@
 // src/redux/reducers/profileReducer.ts
+
 const initialState = {
+  userId: null,
   firstName: '',
   lastName: '',
   email: '',
@@ -8,6 +10,7 @@ const initialState = {
   profilePic: null,
 };
 
+// Profile reducer to handle user profile state
 const profileReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case 'SET_PROFILE':
@@ -19,6 +22,15 @@ const profileReducer = (state = initialState, action: any) => {
       return {
         ...state,
         ...action.payload,
+      };
+    case 'SET_USER_ID':
+      return {
+        ...state,
+        userId: action.payload,
+      };
+    case 'CLEAR_PROFILE':
+      return {
+        ...initialState,
       };
     default:
       return state;

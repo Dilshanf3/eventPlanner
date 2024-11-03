@@ -2,7 +2,6 @@ import React, {useEffect, useState, useMemo} from 'react';
 import {View, ScrollView, SafeAreaView, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setProfile} from '../../redux/actions/profileActions';
 import ProfileHeader from '../../component/updateProfile/ProfileHeader';
 import ProfilePicture from '../../component/updateProfile/ProfilePicture';
@@ -20,8 +19,8 @@ import LoadingSpinner from '../../component/Spinner/LoadingSpinner';
 const ProfileScreen: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const profile = useSelector((state: any) => state.profile);
+  const userId = profile.userId; // Get userId directly from Redux
   const [localProfile, setLocalProfile] = useState(profile);
-  const [userId, setUserId] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isEditable, setIsEditable] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -32,19 +31,12 @@ const ProfileScreen: React.FC = () => {
   const [phoneError, setPhoneError] = useState('');
 
   useEffect(() => {
-    const fetchUserId = async () => {
-      try {
-        const id = await AsyncStorage.getItem('userId');
-        setUserId(id);
-        if (id) {
-          await fetchUserData(id);
-        }
-      } catch (error) {
-        console.error('Error retrieving userId from AsyncStorage:', error);
-      }
-    };
-    fetchUserId();
-  }, []);
+    if (userId) {
+      fetchUserData(userId);
+    } else {
+      setLoading(false);
+    }
+  }, [userId]);
 
   const fetchUserData = async (userId: string) => {
     try {

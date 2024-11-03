@@ -1,4 +1,3 @@
-// CustomDrawerContent.tsx
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -7,11 +6,10 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {RootState} from '../../redux/store';
+import {handleLogout} from '../../services/LogoutService/Logout';
 import styles from './Styles/customDrawerStyles';
 import {Strings} from '../../constants/strings';
-import {handleLogout} from '../../services/LogoutService/Logout';
-import {RootState} from '../../redux/store';
 
 interface Profile {
   profilePic?: string;
@@ -21,9 +19,14 @@ interface Profile {
 }
 
 const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
-  const navigation = useNavigation<NavigationProp<any>>();
   const dispatch = useDispatch();
   const profile = useSelector<RootState, Profile>(state => state.profile);
+
+  const onLogout = () => {
+    props.navigation.closeDrawer();
+
+    dispatch(handleLogout(props.navigation));
+  };
 
   return (
     <DrawerContentScrollView
@@ -52,9 +55,7 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
 
       {/* Logout Section */}
       <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.logoutButton}
-          onPress={() => dispatch(handleLogout(navigation))}>
+        <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
           <Image
             source={require('../../assets/images/Logout.png')}
             style={styles.logoutIcon}

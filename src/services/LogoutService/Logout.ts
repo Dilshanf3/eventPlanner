@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationProp} from '@react-navigation/native';
-import {Alert} from 'react-native';
+
 import {ThunkAction} from 'redux-thunk';
 import {AnyAction} from 'redux';
 import {RootState} from '../../redux/store'; // Adjust path to your store file
@@ -14,13 +14,14 @@ export const handleLogout = (
     try {
       console.log('Attempting logout...');
       await auth().signOut(); // Sign out from Firebase
-      await AsyncStorage.clear(); // Clear AsyncStorage
 
-      dispatch(setProfile({})); // Remove local values
+      await AsyncStorage.removeItem('userId');
 
-      navigation.navigate('Login'); // Navigate to login screen
+      dispatch(setProfile({}));
+
+      navigation.navigate('Login');
     } catch (error) {
-      Alert.alert('Logout failed. Please try again.');
+      console.error('Logout error:', error);
     }
   };
 };
